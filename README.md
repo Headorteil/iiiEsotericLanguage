@@ -1,4 +1,4 @@
-# iiiEsotericLanguage
+# iii Esoteric Language
 
 I made this python esoteric language interpreter for my esoteric language : iii which have the particularity to have his programms only composed by the character i.
 
