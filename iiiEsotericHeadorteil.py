@@ -84,23 +84,34 @@ def executebf(code, data):
     intelligible = decode(a,code)
     bf(intelligible, 0, len(intelligible) - 1, data, 0)
 
+def createbin(number):
+    hex_string = hex(number)[2:]
+    if len(hex_string) % 2:
+        hex_string = '0' + hex_string
+    return bytes.fromhex(hex_string)
+
+def readbin(binary):
+    return int(binary.hex(), 16)
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description='iii Encoder/Decoder/Executer (deals with BrainFuck)', epilog='Examples : \n$ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"\n$ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"./file"\n$ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739\n$ ./iiiEsotericHeadorteil.py -e -n12250030 -b"yay"')
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description='iii Encoder/Decoder/Executer (deals with BrainFuck)', epilog='Examples : \n$ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"\n$ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"./output.bf"\n$ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739\n$ ./iiiEsotericHeadorteil.py -e -n12250030 -b"yay"\n$ ./iiiEsotericHeadorteil.py -w -p"./input.txt" -f"./output.iii"')
     parser.add_argument('-a', help='Specify/Print the string of your BrainFuck program (input or output) give this option "yes" if it is use for an output')
     parser.add_argument('-n', help='Specify/Print the number of i your programm would contain (if you don\'precise this option in -c mode, be careful, iii programms can be really huge and you may have an overflow error) (input or output) give this option "yes" if it is use for an output')
     parser.add_argument('-p', help='Specify the path of your iii file (input or output)')
     parser.add_argument('-o', help='Specify the path of your BrainFuck file(input or output)')
     parser.add_argument('-b', help='Specify the input of your iii programm')
+    parser.add_argument('-f', help='Specify the iii binary file')
     parser.add_argument('-e', help='Execute your programm', action='store_true')
     parser.add_argument('-d', help='Convert your iii program to BrainFuck', action='store_true')
     parser.add_argument('-c', help='Convert your BrainFuck program to iii', action='store_true')
+    parser.add_argument('-w', help='Convert your iii file/number to a iii binary', action='store_true')
 
     args = parser.parse_args()
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(1)
 
-    if not args.e and not args.d and not args.c:
+    if not args.e and not args.d and not args.c and not args.w:
         print("You must choose an action : decode, encode or execute")
         sys.exit(1)
 
@@ -109,10 +120,10 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if args.n is not None and args.p is not None:
-        print("You must choose either you iii program is/will output in a file or under the form of the number of i your file would contain")
+        print("You must choose either you iii program is/will output in a file or under the form of the number of i your file would contain or in a iii binary file")
         sys.exit(1)
 
-    if args.a is not None and args.o is not None:
+    if (args.a is not None and args.o is not None and args.f is not None) and not args.w:
         print("You must choose either you BrainFuck program is in a file or in a string argument")
         sys.exit(1)
 
@@ -120,7 +131,7 @@ if __name__ == "__main__":
         print("This program can only execute iii program")
         sys.exit(1)
 
-    if args.e and (args.n is None and args.p is None):
+    if args.e and (args.n is None and args.p is None and args.f is None):
         print("You must specify a iii program to execute")
         sys.exit(1)
 
@@ -128,8 +139,7 @@ if __name__ == "__main__":
         print("You can't give arguments to your iii program if you don't want to execute it")
         sys.exit(1)
 
-
-    if args.d and (args.n is None and args.p is None):
+    if args.d and (args.n is None and args.p is None and args.f is None):
         print("You must specify a iii program in input")
         sys.exit(1)
 
@@ -142,15 +152,31 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if args.c and (args.a is None and args.o is None):
-        print("You must specify an output method for your iii")
+        print("You must specify an in method for your Brainfuck input")
         sys.exit(1)
 
-    if args.c and (args.n is None and args.p is None):
-        print("You must specify a BrainFuck program in input")
+    if args.c and (args.n is None and args.p is None and args.f is None):
+        print("You must specify a iii method for your output")
         sys.exit(1)
 
     if args.c and args.n is not None and args.n != "yes":
         print("You must give the n option : \"yes\" value")
+        sys.exit(1)
+
+    if args.w and args.f is None:
+        print("You must give a binary file to output")
+        sys.exit(1)
+
+    if args.w and (args.n is None and args.p is None):
+        print("You must specify a iii file for your input")
+        sys.exit(1)
+
+    if args.w and (args.n is not None and args.p is not None):
+        print("You must choose one iii input method")
+        sys.exit(1)
+
+    if args.w and (args.o is not None and args.a is not None):
+        print("You can't specify BrainFuck when you want to create iii binary bile")
         sys.exit(1)
 
 
@@ -158,6 +184,10 @@ if __name__ == "__main__":
         if args.p is not None:
             f = open(args.p, 'r')
             code = len(f.read())
+            f.close()
+        elif args.f is not None:
+            f = open(args.f, 'rb')
+            code = readbin(f.read())
             f.close()
         else:
             code = int(args.n)
@@ -172,6 +202,10 @@ if __name__ == "__main__":
             f = open(args.p, 'r')
             code = len(f.read())
             f.close()
+        elif args.f is not None:
+            f.open(args.f, 'rb')
+            code = readbin(f.read())
+            f.close()
         else:
             code = int(args.n)
         res = decode("><+-.,[]", code)
@@ -180,9 +214,9 @@ if __name__ == "__main__":
             f.write(res)
             f.close()
             print("File was correctly edited")
-            sys.exit(1)
+            sys.exit(0)
         print(res)
-        sys.exit(1)
+        sys.exit(0)
 
     if args.c:
         if args.o is not None:
@@ -196,7 +230,27 @@ if __name__ == "__main__":
             f = open(args.p, 'w')
             f.write(res*"i")
             f.close()
-            print("File was correctly edited") # If this line is print one day I would be really surprised xD
-            sys.exit(1)
+            print("File was correctly edited")
+            sys.exit(0)
+        elif args.f is not None:
+            iiibinary = createbin(res)
+            f.open(args.f, 'wb')
+            f.write(iiibinary)
+            f.close()
         print(res)
-        sys.exit(1)
+        sys.exit(0)
+
+    if args.w:
+        if args.p is not None:
+            f = open(args.p, 'r')
+            code = len(f.read())
+            f.close()
+        else:
+            code = int(args.n)
+        f = open(args.f, 'wb')
+        f.write(createbin(code))
+        f.close()
+        print("File was correctly edited")
+        sys.exit(0)
+
+
