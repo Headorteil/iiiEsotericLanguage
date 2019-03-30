@@ -25,6 +25,7 @@ optional arguments:
               output
   -p P        Specify the path of your iii file (input or output)
   -o O        Specify the path of your BrainFuck file(input or output)
+  -b B        Specify the input of your iii programm
   -e          Execute your programm
   -d          Convert your iii program to BrainFuck
   -c          Convert your BrainFuck program to iii
@@ -33,4 +34,5 @@ Examples :
 $ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"
 $ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"yes"
 $ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739
+$ ./iiiEsotericHeadorteil.py -e -n12250030 -b"yay"
 ```
