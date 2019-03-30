@@ -252,5 +252,3 @@ if __name__ == "__main__":
         f.close()
         print("File was correctly edited")
         sys.exit(0)
-
-
