@@ -7,8 +7,11 @@ import sys
 def encode(a, code):
     n = len(a)
     result = 0
+    j = 0
     for i in range(len(code)):
-        result += (1 + a.index(code[i]))*(n ** i)
+        if code[i] in a:
+            result += (1 + a.index(code[i]))*(n ** j)
+            j += 1
     return result
 
 def decode(a, code):
