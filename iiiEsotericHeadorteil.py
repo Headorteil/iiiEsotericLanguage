@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
 import argparse
 import sys
 
@@ -94,7 +93,7 @@ def readbin(binary):
     return int(binary.hex(), 16)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description='iii Encoder/Decoder/Executer (deals with BrainFuck)', epilog='Examples : \n$ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"\n$ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"./output.bf"\n$ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739\n$ ./iiiEsotericHeadorteil.py -e -n12250030 -b"yay"\n$ ./iiiEsotericHeadorteil.py -w -p"./input.txt" -f"./output.iii"')
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description='iii Encoder/Decoder/Executer (deals with BrainFuck)', epilog='Examples : \n$ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"\n$ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"./output.bf"\n$ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739\n$ ./iiiEsotericHeadorteil.py -e -n12250030 -b"yay"\n$ ./iiiEsotericHeadorteil.py -w -p"./input.txt" -f"./output.iii"\n$ ./iiiEsotericHeadorteil.py -x -f"./input.iii" -p"output.txt"')
     parser.add_argument('-a', help='Specify/Print the string of your BrainFuck program (input or output) give this option "yes" if it is use for an output')
     parser.add_argument('-n', help='Specify/Print the number of i your programm would contain (if you don\'precise this option in -c mode, be careful, iii programms can be really huge and you may have an overflow error) (input or output) give this option "yes" if it is use for an output')
     parser.add_argument('-p', help='Specify the path of your iii file (input or output)')
@@ -105,25 +104,32 @@ if __name__ == "__main__":
     parser.add_argument('-d', help='Convert your iii program to BrainFuck', action='store_true')
     parser.add_argument('-c', help='Convert your BrainFuck program to iii', action='store_true')
     parser.add_argument('-w', help='Convert your iii file/number to a iii binary', action='store_true')
+    parser.add_argument('-x', help='Convert your iii binary to a iii file/number ', action='store_true')
 
     args = parser.parse_args()
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(1)
 
-    if not args.e and not args.d and not args.c and not args.w:
-        print("You must choose an action : decode, encode or execute")
+    method = [args.e, args.d, args.c, args.w, args.x]
+    temp = 0
+    for i in method:
+        if i:
+            temp +=1
+
+    if temp > 1:
+        print("You must choose between decode, encode, execute, binaryfy or unbinaryfy")
         sys.exit(1)
 
-    if (args.e and args.d) or (args.e and args.c) or (args.d and args.c):
-        print("You must choose between decode, encode or execute")
+    if temp == 0:
+        print("You must choose an action : decode, encode, execute, binaryfy or unbinaryfy")
         sys.exit(1)
 
     if args.n is not None and args.p is not None:
         print("You must choose either you iii program is/will output in a file or under the form of the number of i your file would contain or in a iii binary file")
         sys.exit(1)
 
-    if (args.a is not None and args.o is not None and args.f is not None) and not args.w:
+    if (args.a is not None and args.o is not None and args.f is not None) and (not args.w or not args.x):
         print("You must choose either you BrainFuck program is in a file or in a string argument")
         sys.exit(1)
 
@@ -168,7 +174,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if args.w and (args.n is None and args.p is None):
-        print("You must specify a iii file for your input")
+        print("You must specify a iii method for your input")
         sys.exit(1)
 
     if args.w and (args.n is not None and args.p is not None):
@@ -179,6 +185,21 @@ if __name__ == "__main__":
         print("You can't specify BrainFuck when you want to create iii binary file")
         sys.exit(1)
 
+    if args.x and args.f is None:
+        print("You must give a binary file to input")
+        sys.exit(1)
+
+    if args.x and (args.n is None and args.p is None):
+        print("You must specify a iii method for your output")
+        sys.exit(1)
+
+    if args.x and (args.n is not None and args.p is not None):
+        print("You must choose one iii output method")
+        sys.exit(1)
+
+    if args.x and (args.o is not None and args.a is not None):
+        print("You can't specify BrainFuck when you want to convert iii binary file")
+        sys.exit(1)
 
     if args.e:
         if args.p is not None:
@@ -253,4 +274,18 @@ if __name__ == "__main__":
         f.write(createbin(code))
         f.close()
         print("File was correctly edited")
+        sys.exit(0)
+
+    if args.x:
+        f = open(args.f, 'rb')
+        code = f.read()
+        f.close()
+        res = readbin(code)
+        if args.p is not None:
+            f = open(args.p, "w")
+            f.write(res*'i')
+            f.close()
+            print("File was correctly edited")
+            sys.exit(0)
+        print(res)
         sys.exit(0)

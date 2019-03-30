@@ -14,7 +14,7 @@ By the way, this method allow us to also compress BrainFuck file
 
 ```
 usage: iiiEsotericHeadorteil.py [-h] [-a A] [-n N] [-p P] [-o O] [-b B] [-f F]
-                                [-e] [-d] [-c] [-w]
+                                [-e] [-d] [-c] [-w] [-x]
 
 iii Encoder/Decoder/Executer (deals with BrainFuck)
 
@@ -35,6 +35,7 @@ optional arguments:
   -d          Convert your iii program to BrainFuck
   -c          Convert your BrainFuck program to iii
   -w          Convert your iii file/number to a iii binary
+  -x          Convert your iii binary to a iii file/number
 
 Examples :
 $ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"
@@ -42,4 +43,5 @@ $ ./iiiEsotericHeadorteil.py -d -n1139426073696161601747869632514264224158701608
 $ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739
 $ ./iiiEsotericHeadorteil.py -e -n12250030 -b"yay"
 $ ./iiiEsotericHeadorteil.py -w -p"./input.txt" -f"./output.iii"
+$ ./iiiEsotericHeadorteil.py -x -f"./input.iii" -p"output.txt"
 ```
