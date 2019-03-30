@@ -8,6 +8,10 @@ Also to note : BrainFuck is turing complete, so iii is. That means, with an infi
 
 PS : Maybe the programms files of iii are a little bit heavy ^^ (A programm which print "Hello World!" is written with a file that contains 11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 i), but i implemented that a way you can play with the number of i and not necessarly the file itself.
 
+Because of that, I implemented a function which convert your iii codes to binary codes (with iii extension) wich is a really compressed version of iii but which keep all the information of a iii code.
+
+By the way, this method allow us to also compress BrainFuck file
+
 ```
 usage: iiiEsotericHeadorteil.py [-h] [-a A] [-n N] [-p P] [-o O] [-b B] [-f F]
                                 [-e] [-d] [-c] [-w]

@@ -176,7 +176,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if args.w and (args.o is not None and args.a is not None):
-        print("You can't specify BrainFuck when you want to create iii binary bile")
+        print("You can't specify BrainFuck when you want to create iii binary file")
         sys.exit(1)
 
 
@@ -203,7 +203,7 @@ if __name__ == "__main__":
             code = len(f.read())
             f.close()
         elif args.f is not None:
-            f.open(args.f, 'rb')
+            f = open(args.f, 'rb')
             code = readbin(f.read())
             f.close()
         else:
@@ -234,9 +234,11 @@ if __name__ == "__main__":
             sys.exit(0)
         elif args.f is not None:
             iiibinary = createbin(res)
-            f.open(args.f, 'wb')
+            f = open(args.f, 'wb')
             f.write(iiibinary)
             f.close()
+            print("File was correctly edited")
+            sys.exit(0)
         print(res)
         sys.exit(0)
 
