@@ -76,17 +76,18 @@ def bf(src, left, right, data, idx):
             i -= 1
         i += 1
 
-def executebf(code):
+def executebf(code, data):
     a = "><+-.,[]"
     intelligible = decode(a,code)
-    bf(intelligible, 0, len(intelligible) - 1, "sdfsdf", 0)
+    bf(intelligible, 0, len(intelligible) - 1, data, 0)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description='iii Encoder/Decoder/Executer (deals with BrainFuck)', epilog='Examples : \n$ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"\n$ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"yes"\n$ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739')
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description='iii Encoder/Decoder/Executer (deals with BrainFuck)', epilog='Examples : \n$ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"\n$ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"./file"\n$ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739\n$ ./iiiEsotericHeadorteil.py -e -n12250030 -b"yay"')
     parser.add_argument('-a', help='Specify/Print the string of your BrainFuck program (input or output) give this option "yes" if it is use for an output')
     parser.add_argument('-n', help='Specify/Print the number of i your programm would contain (if you don\'precise this option in -c mode, be careful, iii programms can be really huge and you may have an overflow error) (input or output) give this option "yes" if it is use for an output')
     parser.add_argument('-p', help='Specify the path of your iii file (input or output)')
     parser.add_argument('-o', help='Specify the path of your BrainFuck file(input or output)')
+    parser.add_argument('-b', help='Specify the input of your iii programm')
     parser.add_argument('-e', help='Execute your programm', action='store_true')
     parser.add_argument('-d', help='Convert your iii program to BrainFuck', action='store_true')
     parser.add_argument('-c', help='Convert your BrainFuck program to iii', action='store_true')
@@ -120,6 +121,11 @@ if __name__ == "__main__":
         print("You must specify a iii program to execute")
         sys.exit(1)
 
+    if args.b is not None and not args.e:
+        print("You can't give arguments to your iii program if you don't want to execute it")
+        sys.exit(1)
+
+
     if args.d and (args.n is None and args.p is None):
         print("You must specify a iii program in input")
         sys.exit(1)
@@ -152,7 +158,11 @@ if __name__ == "__main__":
             f.close()
         else:
             code = int(args.n)
-        executebf(code)
+        if args.b is not None:
+            data = args.b
+        else:
+            data = ""
+        executebf(code, data)
 
     if args.d:
         if args.p is not None:
