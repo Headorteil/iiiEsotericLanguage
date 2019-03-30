@@ -9,8 +9,8 @@ Also to note : BrainFuck is turing complete, so iii is. That means, with an infi
 PS : Maybe the programms files of iii are a little bit heavy ^^ (A programm which print "Hello World!" is written with a file that contains 11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 i), but i implemented that a way you can play with the number of i and not necessarly the file itself.
 
 ```
-usage: iiiEsotericHeadorteil.py [-h] [-a A] [-n N] [-p P] [-o O] [-b B] [-f F]
-                                [-e] [-d] [-c] [-w]
+usage: iiiEsotericHeadorteil.py [-h] [-a A] [-n N] [-p P] [-o O] [-e] [-d]
+                                [-c]
 
 iii Encoder/Decoder/Executer (deals with BrainFuck)
 
@@ -26,16 +26,13 @@ optional arguments:
   -p P        Specify the path of your iii file (input or output)
   -o O        Specify the path of your BrainFuck file(input or output)
   -b B        Specify the input of your iii programm
-  -f F        Specify the iii binary file
   -e          Execute your programm
   -d          Convert your iii program to BrainFuck
   -c          Convert your BrainFuck program to iii
-  -w          Convert your iii file/number to a iii binary
 
 Examples :
 $ ./iiiEsotericHeadorteil.py -c -a"++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>." -n"yes"
-$ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"./output.bf"
+$ ./iiiEsotericHeadorteil.py -d -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739 -o"yes"
 $ ./iiiEsotericHeadorteil.py -e -n11394260736961616017478696325142642241587016089942641935756584435039981423330228839638374655156139739
 $ ./iiiEsotericHeadorteil.py -e -n12250030 -b"yay"
-$ ./iiiEsotericHeadorteil.py -w -p"./input.txt" -f"./output.iii"
 ```
